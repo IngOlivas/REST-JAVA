@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="ISO-8859-1">
+<title>CRUD AngularJS</title>
+<script type="text/javascript" src="js/angular.min.js"></script>
+
+</head>
+<body>
+
+	<div ng-controller="myCtrl">
+			<p>The ID is {{greeting.id}}</p>
+			<p>The content is {{greeting.nombre}}</p>
+			<p>The content is {{greeting.apellido}}</p>
+		</div>
+
+
+<table ng-controller="myCtrl">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Nombre</th>
+      <th>Apellido</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="empleado in empleados">
+      <td>{{empleado.id}}</td>
+      <td>{{empleado.nombre}}</td>
+      <td>{{empleado.apellido}}</td>
+    </tr>
+  </tbody>
+</table>
+
+	<script type="text/javascript">
+	
+	
+	var app = angular.module('myApp', []);
+	app.controller('myCtrl', ['$scope','$log','$http',function($scope,$log,$http) {
+		
+		$scope.empleados = {
+				id:"",
+				nombre:"",
+				apellido:""
+		}
+		
+		$http.get('http://localhost:8080/RestService/resources/MyRestService/Object').
+        then(function(response) {
+            $scope.greeting = response.data;
+            $scope.empleados = $scope.greeting;
+            console.log('Los datos en el array empleados son', $scope.empleados);
+        });
+	}]);
+	
+	</script>
+
+</body>
+</html>
